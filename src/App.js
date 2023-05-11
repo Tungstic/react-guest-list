@@ -12,17 +12,15 @@ export default function App() {
   function clearInput(event) {
     event.currentTarget.value = '';
   } */
+  // Also need to add the updated guest to the api array onKeyDown and clear inputs
 
-  function addGuest(event) {
-    if (event.key === 'Enter') {
-      setNewGuest({
-        firstName: newGuest.firstName,
-        lastName: newGuest.lastName,
-        attending: newGuest.attending,
-      });
-    }
+  function handleInputs(event) {
+    const value = event.currentTarget.value;
+    setNewGuest({
+      ...newGuest,
+      [event.currentTarget.name]: value,
+    });
     console.log(newGuest);
-    // clearInput();
   }
 
   return (
@@ -39,26 +37,17 @@ export default function App() {
         <label>
           First name
           <input
-            onChange={(event) =>
-              setNewGuest({
-                firstName: event.currentTarget.value,
-                lastName: newGuest.lastName,
-                attending: newGuest.attending,
-              })
-            }
+            name="firstName"
+            value={newGuest.firstName}
+            onChange={handleInputs}
           />
         </label>
         <label>
           Last name
           <input
-            onChange={(event) =>
-              setNewGuest({
-                firstName: newGuest.firstName,
-                lastName: event.currentTarget.value,
-                attending: newGuest.attending,
-              })
-            }
-            onKeyDown={addGuest}
+            name="lastName"
+            value={newGuest.lastName}
+            onChange={handleInputs}
           />
         </label>
       </form>
