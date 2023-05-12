@@ -1,5 +1,5 @@
-// import styles from './App.module.scss';
 import { useState } from 'react';
+import styles from './App.module.scss';
 
 export default function App() {
   // declare state variable
@@ -12,15 +12,17 @@ export default function App() {
   function clearInput(event) {
     event.currentTarget.value = '';
   } */
-  // Also need to add the updated guest to the api array onKeyDown and clear inputs
 
-  function handleInputs(event) {
-    const value = event.currentTarget.value;
-    setNewGuest({
-      ...newGuest,
-      [event.currentTarget.name]: value,
-    });
+  function addGuest(event) {
+    if (event.key === 'Enter') {
+      setNewGuest({
+        firstName: newGuest.firstName,
+        lastName: newGuest.lastName,
+        attending: newGuest.attending,
+      });
+    }
     console.log(newGuest);
+    // clearInput();
   }
 
   return (
@@ -29,28 +31,33 @@ export default function App() {
 
       <div>Add a guest using their first and last name</div>
 
-      <form
-        onSubmit={(event) => {
-          event.preventDefault();
-        }}
-      >
-        <label>
-          First name
-          <input
-            name="firstName"
-            value={newGuest.firstName}
-            onChange={handleInputs}
-          />
-        </label>
-        <label>
-          Last name
-          <input
-            name="lastName"
-            value={newGuest.lastName}
-            onChange={handleInputs}
-          />
-        </label>
-      </form>
+      <label>
+        First name
+        <input
+          className={styles.padding}
+          onChange={(event) =>
+            setNewGuest({
+              firstName: event.currentTarget.value,
+              lastName: newGuest.lastName,
+              attending: newGuest.attending,
+            })
+          }
+        />
+      </label>
+      <label>
+        Last name
+        <input
+          className={styles.padding}
+          onChange={(event) =>
+            setNewGuest({
+              firstName: newGuest.firstName,
+              lastName: event.currentTarget.value,
+              attending: newGuest.attending,
+            })
+          }
+          onKeyDown={addGuest}
+        />
+      </label>
 
       <div data-test-id="guest">
         <div>Guest info here</div>
