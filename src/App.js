@@ -18,6 +18,7 @@ export default function App() {
     async function firstRenderFetch() {
       const response = await fetch(`${baseUrl}/guests`);
       const allGuests = await response.json();
+      setGuests([...allGuests]);
       setIsLoading(false);
     }
 
@@ -44,21 +45,33 @@ export default function App() {
     console.log(guests);
     // clearInput()
   }
+  async function postGuest() {
+    const response = await fetch(`${baseUrl}/guests`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        firstName: newGuest.firstName,
+        lastName: newGuest.lastName,
+      }),
+    });
+    const createdGuest = await response.json();
+    setGuests([...guests, createdGuest]);
 
-  // send newGuest to API
-  useEffect(() => {
-    async function postGuest() {
-      const response = await fetch(`${baseUrl}/guests`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newGuest),
-      });
-      const createdGuest = await response.json();
-      guests.push(createdGuest);
+    postGuest().catch((error) => {
+      console.log(error);
+    });
+  }
+
+  // display GuestList
+  /*   useEffect(() => {
+    async function displayAllGuests() {
+      const response = await fetch(`${baseUrl}/guests`);
+      const allGuests = await response.json();
+      setGuests(allGuests);
     }
-  }, [newGuest, guests]); // trigger every time newGuest is updated
+  }, [guests]); */
 
   if (isLoading) {
     return (
