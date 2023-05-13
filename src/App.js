@@ -13,19 +13,18 @@ export default function App() {
     attending: false,
   });
 
-  /*   // 1. when we want to trigger an action on first render
+  // first rendering of the page
   useEffect(() => {
-    async function firstRenderFetch() {
-      const response = await fetch(`${baseUrl}/guests`);
-      const allGuests = await response.json();
-      setGuests([...allGuests]);
-      setIsLoading(false);
+    function firstRenderFetch() {
+      fetch(`${baseUrl}/guests`)
+        .then((response) => response.json())
+        .then((data) => {
+          setGuests(data);
+        })
+        .catch((error) => console.log(error));
     }
-
-    firstRenderFetch().catch((error) => {
-      console.log(error);
-    });
-  }, []); // triggers only on the first render */
+    setIsLoading(false);
+  }, []); // triggers only on the first render
 
   /*
   function clearInput(event) {
@@ -93,7 +92,7 @@ export default function App() {
     }
   }, [guests]); */
 
-  /*  if (isLoading) {
+  if (isLoading) {
     return (
       <>
         <h1>Create a guest list for your event</h1>
@@ -120,7 +119,7 @@ export default function App() {
         </div>
       </>
     );
-  } */
+  }
   return (
     <>
       <h1>Create a guest list for your event</h1>
@@ -145,7 +144,7 @@ export default function App() {
       </label>
 
       <div data-test-id="guest">
-        <div>guest info here</div>
+        <div>{JSON.stringify(guests)}</div>
         <input type="checkbox" aria-label="attending status" />
         <button>Remove</button>
       </div>
