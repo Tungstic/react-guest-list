@@ -13,7 +13,7 @@ export default function App() {
     attending: false,
   });
 
-  // 1. when we want to trigger an action on first render
+  /*   // 1. when we want to trigger an action on first render
   useEffect(() => {
     async function firstRenderFetch() {
       const response = await fetch(`${baseUrl}/guests`);
@@ -25,12 +25,30 @@ export default function App() {
     firstRenderFetch().catch((error) => {
       console.log(error);
     });
-  }, []); // triggers only on the first render
+  }, []); // triggers only on the first render */
 
   /*
   function clearInput(event) {
     event.currentTarget.value = '';
   } */
+
+  function postGuest() {
+    fetch(`${baseUrl}/guests`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        firstName: newGuest.firstName,
+        lastName: newGuest.lastName,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => console.log(error));
+  }
 
   function addGuest(event) {
     if (event.key === 'Enter') {
@@ -43,9 +61,11 @@ export default function App() {
     console.log(newGuest);
     setGuests(newGuest);
     console.log(guests);
+    postGuest();
     // clearInput()
   }
-  async function postGuest() {
+
+  /* async function postGuest() {
     const response = await fetch(`${baseUrl}/guests`, {
       method: 'POST',
       headers: {
@@ -62,7 +82,7 @@ export default function App() {
     postGuest().catch((error) => {
       console.log(error);
     });
-  }
+  } */
 
   // display GuestList
   /*   useEffect(() => {
@@ -73,7 +93,7 @@ export default function App() {
     }
   }, [guests]); */
 
-  if (isLoading) {
+  /*  if (isLoading) {
     return (
       <>
         <h1>Create a guest list for your event</h1>
@@ -100,7 +120,7 @@ export default function App() {
         </div>
       </>
     );
-  }
+  } */
   return (
     <>
       <h1>Create a guest list for your event</h1>
@@ -125,7 +145,7 @@ export default function App() {
       </label>
 
       <div data-test-id="guest">
-        <div>{JSON.stringify(guests)}</div>
+        <div>guest info here</div>
         <input type="checkbox" aria-label="attending status" />
         <button>Remove</button>
       </div>
