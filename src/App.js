@@ -5,6 +5,14 @@ export default function App() {
   const baseUrl = 'http://localhost:4000';
 
   // declare state variable
+  const apiList = () => {
+    fetch(`${baseUrl}/guests`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => console.log(error));
+  };
   const [guests, setGuests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [newGuest, setNewGuest] = useState({
@@ -19,7 +27,9 @@ export default function App() {
       fetch(`${baseUrl}/guests`)
         .then((response) => response.json())
         .then((data) => {
-          setGuests(data);
+          console.log(data);
+          setGuests([...data]);
+          console.log(guests);
         })
         .catch((error) => console.log(error));
     }
@@ -45,6 +55,7 @@ export default function App() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
+        setGuests([...guests, data]);
       })
       .catch((error) => console.log(error));
   }
@@ -57,12 +68,19 @@ export default function App() {
         attending: newGuest.attending,
       });
     }
-    console.log(newGuest);
-    setGuests(newGuest);
-    console.log(guests);
+    // console.log(newGuest);
     postGuest();
     // clearInput()
   }
+  // render API's guest list on every update of it
+  /*   useEffect(() => {
+    function displayGuests() {
+      fetch(`${baseUrl}/guests`)
+        .then((response) => response.json())
+        .then((data) => data)
+        .catch((error) => console.log(error));
+    }
+  }, [guests]); */
 
   /* async function postGuest() {
     const response = await fetch(`${baseUrl}/guests`, {
@@ -83,14 +101,9 @@ export default function App() {
     });
   } */
 
-  // display GuestList
-  /*   useEffect(() => {
-    async function displayAllGuests() {
-      const response = await fetch(`${baseUrl}/guests`);
-      const allGuests = await response.json();
-      setGuests(allGuests);
-    }
-  }, [guests]); */
+  useEffect(() => {
+    apiList();
+  }, [guests]);
 
   if (isLoading) {
     return (
