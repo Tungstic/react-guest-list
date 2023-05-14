@@ -30,7 +30,7 @@ export default function App() {
     });
   }, []);
 
-  // send a newGuest to api (function declared, will be called onSubmit)
+  // add newGuest to api (function declared, will be called onSubmit)
   function postGuest() {
     fetch(`${baseUrl}/guests`, {
       method: 'POST',
@@ -47,14 +47,14 @@ export default function App() {
         console.log('look here 2');
         console.log(data);
         setGuests([...guests, data]);
-        console.log('my guests' + JSON.stringify(guests)); // Here "guests" consists of empty array
+        console.log('my guests' + JSON.stringify(guests)); // Here "guests" consists of empty array because setGuests is not synchronous??
       })
       .catch((error) => {
         console.log(error);
         console.log('error 2');
       });
   }
-  // modify guests array, send the new guest to api (calling postGuest()) and clear inputs
+  // send newGuest to api and local list and afterwards clear inputs
   function handleSubmit(event) {
     event.preventDefault();
     setGuests([...guests, newGuest]);
@@ -66,7 +66,7 @@ export default function App() {
     });
   }
 
-  // delete guest from api list by id
+  // delete guest from api list and local list by id
   function deleteGuest(id) {
     fetch(`${baseUrl}/guests/${id}`, {
       method: 'DELETE',
@@ -85,12 +85,7 @@ export default function App() {
       });
   }
 
-  // remove a guest from list
-  /*   function handleClick(event) {
-    event.preventDefault();
-  } */
-
-  // need to map over data?? to display each guest
+  // display all "guests" whenever this variable changes
   useEffect(() => {
     fetch(`${baseUrl}/guests`)
       .then((response) => response.json())
