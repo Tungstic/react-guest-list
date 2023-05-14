@@ -39,11 +39,7 @@ export default function App() {
     });
   }, []);
 
-  /*
-  function clearInput(event) {
-    event.currentTarget.value = '';
-  } */
-
+  // send a newGuest to api (function declared, will be called onSubmit)
   function postGuest() {
     fetch(`${baseUrl}/guests`, {
       method: 'POST',
@@ -59,15 +55,15 @@ export default function App() {
       .then((data) => {
         console.log('look here 2');
         console.log(data);
-        console.log('my guests' + guests);
         setGuests([...guests, data]);
+        console.log('my guests' + JSON.stringify(guests));
       })
       .catch((error) => {
         console.log(error);
         console.log('error 2');
       });
   }
-
+  // modify guests array, send the new guest to api (calling postGuest()) and clear inputs
   function handleSubmit(event) {
     event.preventDefault();
     setGuests([...guests, newGuest]);
@@ -79,12 +75,14 @@ export default function App() {
     });
   }
 
+  // need to map over data?? to display each guest
   useEffect(() => {
     fetch(`${baseUrl}/guests`)
       .then((response) => response.json())
       .then((data) => {
         console.log('look here 3');
         console.log(data);
+        console.log(guests);
         // setGuests(data); DO NOT DO THAT
       })
       .catch((error) => {
@@ -150,7 +148,7 @@ export default function App() {
 
       <div data-test-id="guest">
         {/* use map method to print each guest?? */}
-        <div>guest list here</div>
+        <div>{JSON.stringify(guests)}</div>
         <input type="checkbox" aria-label="attending status" />
         <button>Remove</button>
       </div>
