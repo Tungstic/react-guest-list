@@ -25,10 +25,9 @@ export default function App() {
   // first rendering of the page
   useEffect(() => {
     async function firstRenderFetch() {
-      console.log(JSON.stringify(isLoading));
-
       const response = await fetch(`${baseUrl}/guests`);
       const data = await response.json();
+      console.log('look here 1');
       console.log(data);
 
       setIsLoading(false); // Set isLoading to false after the response is received
@@ -36,6 +35,7 @@ export default function App() {
 
     firstRenderFetch().catch((error) => {
       console.log(error);
+      console.log('error 1');
     });
   }, []);
 
@@ -57,10 +57,15 @@ export default function App() {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log('look here 2');
         console.log(data);
+        console.log('my guests' + guests);
         setGuests([...guests, data]);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        console.log('error 2');
+      });
   }
 
   function addGuest(event) {
@@ -85,9 +90,19 @@ export default function App() {
     }
   }, [guests]); */
 
-  /*   useEffect(() => {
-    apiList();
-  }, [guests]); */
+  useEffect(() => {
+    fetch(`${baseUrl}/guests`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('look here 3');
+        console.log(data);
+        // setGuests(data); DO NOT DO THAT
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log('error 3');
+      });
+  }, [guests]);
 
   if (isLoading) {
     return (
@@ -141,6 +156,7 @@ export default function App() {
       </label>
 
       <div data-test-id="guest">
+        {/* use map method to print each guest?? */}
         <div>guest list here</div>
         <input type="checkbox" aria-label="attending status" />
         <button>Remove</button>
