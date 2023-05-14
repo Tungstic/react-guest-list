@@ -5,14 +5,6 @@ export default function App() {
   const baseUrl = 'http://localhost:4000';
 
   // declare state variable
-  const apiList = () => {
-    fetch(`${baseUrl}/guests`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => console.log(error));
-  };
   const [guests, setGuests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [newGuest, setNewGuest] = useState({
@@ -21,20 +13,31 @@ export default function App() {
     attending: false,
   });
 
+  /*  const apiList = () => {
+    fetch(`${baseUrl}/guests`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => console.log(error));
+  };
+ */
   // first rendering of the page
   useEffect(() => {
-    function firstRenderFetch() {
-      fetch(`${baseUrl}/guests`)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setGuests([...data]);
-          console.log(guests);
-        })
-        .catch((error) => console.log(error));
+    async function firstRenderFetch() {
+      console.log(JSON.stringify(isLoading));
+
+      const response = await fetch(`${baseUrl}/guests`);
+      const data = await response.json();
+      console.log(data);
+
+      setIsLoading(false); // Set isLoading to false after the response is received
     }
-    setIsLoading(false);
-  }, []); // triggers only on the first render
+
+    firstRenderFetch().catch((error) => {
+      console.log(error);
+    });
+  }, []);
 
   /*
   function clearInput(event) {
@@ -82,28 +85,9 @@ export default function App() {
     }
   }, [guests]); */
 
-  /* async function postGuest() {
-    const response = await fetch(`${baseUrl}/guests`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        firstName: newGuest.firstName,
-        lastName: newGuest.lastName,
-      }),
-    });
-    const createdGuest = await response.json();
-    setGuests([...guests, createdGuest]);
-
-    postGuest().catch((error) => {
-      console.log(error);
-    });
-  } */
-
-  useEffect(() => {
+  /*   useEffect(() => {
     apiList();
-  }, [guests]);
+  }, [guests]); */
 
   if (isLoading) {
     return (
@@ -157,7 +141,7 @@ export default function App() {
       </label>
 
       <div data-test-id="guest">
-        <div>{JSON.stringify(guests)}</div>
+        <div>guest list here</div>
         <input type="checkbox" aria-label="attending status" />
         <button>Remove</button>
       </div>
