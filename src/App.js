@@ -13,15 +13,6 @@ export default function App() {
     attending: false,
   });
 
-  /*  const apiList = () => {
-    fetch(`${baseUrl}/guests`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => console.log(error));
-  };
- */
   // first rendering of the page
   useEffect(() => {
     async function firstRenderFetch() {
@@ -148,7 +139,7 @@ export default function App() {
 
       <div data-test-id="guest">
         {/* use map method to print each guest?? */}
-        <div>{JSON.stringify(guests)}</div>
+        <div>one guest here</div>
         <input type="checkbox" aria-label="attending status" />
         <button>Remove</button>
       </div>
