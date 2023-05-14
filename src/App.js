@@ -47,7 +47,7 @@ export default function App() {
         console.log('look here 2');
         console.log(data);
         setGuests([...guests, data]);
-        console.log('my guests' + JSON.stringify(guests));
+        console.log('my guests' + JSON.stringify(guests)); // Here "guests" consists of empty array
       })
       .catch((error) => {
         console.log(error);
@@ -138,8 +138,13 @@ export default function App() {
       </form>
 
       <div data-test-id="guest">
-        {/* use map method to print each guest?? */}
-        <div>one guest here</div>
+        {guests.map((guest) => {
+          return (
+            <div key={`guest ${guest['id']}`}>
+              {guest['firstName'] + ' ' + guest['lastName']}
+            </div>
+          );
+        })}
         <input type="checkbox" aria-label="attending status" />
         <button>Remove</button>
       </div>
