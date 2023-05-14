@@ -68,14 +68,8 @@ export default function App() {
       });
   }
 
-  function addGuest(event) {
-    if (event.key === 'Enter') {
-      setNewGuest({
-        firstName: newGuest.firstName,
-        lastName: event.currentTarget.value,
-        attending: newGuest.attending,
-      });
-    }
+  function handleSubmit(event) {
+    event.preventDefault();
     // console.log(newGuest);
     postGuest();
     // clearInput()
@@ -137,23 +131,33 @@ export default function App() {
       <h1>Create a guest list for your event</h1>
 
       <div>Add a guest using their first and last name</div>
-
-      <label>
-        First name
-        <input
-          onChange={(event) =>
-            setNewGuest({
-              firstName: event.currentTarget.value,
-              lastName: newGuest.lastName,
-              attending: newGuest.attending,
-            })
-          }
-        />
-      </label>
-      <label>
-        Last name
-        <input onKeyDown={addGuest} />
-      </label>
+      <form onSubmit={handleSubmit}>
+        <label>
+          First name
+          <input
+            onChange={(event) =>
+              setNewGuest({
+                firstName: event.currentTarget.value,
+                lastName: newGuest.lastName,
+                attending: newGuest.attending,
+              })
+            }
+          />
+        </label>
+        <label>
+          Last name
+          <input
+            onChange={(event) =>
+              setNewGuest({
+                firstName: newGuest.firstName,
+                lastName: event.currentTarget.value,
+                attending: newGuest.attending,
+              })
+            }
+          />
+        </label>
+        <button className="hideButton">Submit</button>
+      </form>
 
       <div data-test-id="guest">
         {/* use map method to print each guest?? */}
