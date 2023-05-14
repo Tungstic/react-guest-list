@@ -142,11 +142,11 @@ export default function App() {
           return (
             <div key={`guest ${guest['id']}`}>
               {guest['firstName'] + ' ' + guest['lastName']}
+              <input type="checkbox" aria-label="attending status" />
+              <button>Remove</button>
             </div>
           );
         })}
-        <input type="checkbox" aria-label="attending status" />
-        <button>Remove</button>
       </div>
     </>
   );
