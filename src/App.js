@@ -66,20 +66,30 @@ export default function App() {
     });
   }
 
-  // remove a guest from list
-  function handleRemove(number) {
-    async function removeGuest() {
-      const response = await fetch(`${baseUrl}/guests/${number}`, {
-        method: 'DELETE',
+  // delete guest from api list by id
+  function deleteGuest(id) {
+    fetch(`${baseUrl}/guests/${id}`, {
+      method: 'DELETE',
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('look here 4');
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
       });
-      const deletedGuest = await response.json();
-      /* let updatedList = guests.filter((guest) => {
+    /* let updatedList = guests.filter((guest) => {
       return guest['id'] !== deletedGuest['id'];
     }); */
-    }
-    removeGuest().catch((error) => console.log(error));
   }
+
   // setGuests(updatedList);
+
+  // remove a guest from list
+  /*   function handleClick(event) {
+    event.preventDefault();
+  } */
 
   // need to map over data?? to display each guest
   useEffect(() => {
@@ -158,7 +168,7 @@ export default function App() {
             <div key={`guest ${guest['id']}`}>
               {guest['firstName'] + ' ' + guest['lastName']}
               <input type="checkbox" aria-label="attending status" />
-              <button onClick={handleRemove(guest['id'])}>Remove</button>
+              <button onClick={() => deleteGuest(guest['id'])}>Remove</button>
             </div>
           );
         })}
