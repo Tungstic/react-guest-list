@@ -75,16 +75,15 @@ export default function App() {
       .then((data) => {
         console.log('look here 4');
         console.log(data);
+        const updatedList = guests.filter((guest) => {
+          return guest['id'] !== data['id'];
+        });
+        setGuests(updatedList);
       })
       .catch((error) => {
         console.log(error);
       });
-    /* let updatedList = guests.filter((guest) => {
-      return guest['id'] !== deletedGuest['id'];
-    }); */
   }
-
-  // setGuests(updatedList);
 
   // remove a guest from list
   /*   function handleClick(event) {
