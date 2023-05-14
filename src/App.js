@@ -70,19 +70,14 @@ export default function App() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    // console.log(newGuest);
+    setGuests([...guests, newGuest]);
     postGuest();
-    // clearInput()
+    setNewGuest({
+      firstName: '',
+      lastName: '',
+      attending: false,
+    });
   }
-  // render API's guest list on every update of it
-  /*   useEffect(() => {
-    function displayGuests() {
-      fetch(`${baseUrl}/guests`)
-        .then((response) => response.json())
-        .then((data) => data)
-        .catch((error) => console.log(error));
-    }
-  }, [guests]); */
 
   useEffect(() => {
     fetch(`${baseUrl}/guests`)
@@ -135,24 +130,18 @@ export default function App() {
         <label>
           First name
           <input
+            value={newGuest.firstName}
             onChange={(event) =>
-              setNewGuest({
-                firstName: event.currentTarget.value,
-                lastName: newGuest.lastName,
-                attending: newGuest.attending,
-              })
+              setNewGuest({ ...newGuest, firstName: event.currentTarget.value })
             }
           />
         </label>
         <label>
           Last name
           <input
+            value={newGuest.lastName}
             onChange={(event) =>
-              setNewGuest({
-                firstName: newGuest.firstName,
-                lastName: event.currentTarget.value,
-                attending: newGuest.attending,
-              })
+              setNewGuest({ ...newGuest, lastName: event.currentTarget.value })
             }
           />
         </label>
