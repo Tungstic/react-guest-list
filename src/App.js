@@ -1,5 +1,6 @@
 import './App.css';
 import { useEffect, useState } from 'react';
+import styles from './index.css';
 
 export default function App() {
   const baseUrl = 'http://localhost:4000';
@@ -10,7 +11,7 @@ export default function App() {
   const [newGuest, setNewGuest] = useState({
     firstName: '',
     lastName: '',
-    attending: false,
+    // attending: attend,
   });
 
   // first rendering of the page
@@ -63,8 +64,29 @@ export default function App() {
     setNewGuest({
       firstName: '',
       lastName: '',
-      attending: false,
+      // attending: attend,
     });
+  }
+
+  // switch attending status of existing guest
+  function toggleCheckbox(id, boolean) {
+    fetch(`${baseUrl}/guests/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ attending: boolean }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('look here 5');
+        console.log(data);
+        const updatedGuestList = guests.filter((i) => {
+          return i.id !== data.id;
+        });
+        setGuests([...guests], updatedGuestList);
+      })
+      .catch((error) => console.log(error));
   }
 
   // delete guest from api list and local list by id
@@ -146,7 +168,14 @@ export default function App() {
           return (
             <div key={`guest ${guest['id']}`}>
               {guest['firstName'] + ' ' + guest['lastName']}
-              <input type="checkbox" aria-label="attending status" />
+              <input
+                type="checkbox"
+                aria-label="attending status"
+                checked={guest.attending}
+                onChange={(event) =>
+                  toggleCheckbox(guest['id'], event.currentTarget.checked)
+                }
+              />
               <button onClick={() => deleteGuest(guest['id'])}>Remove</button>
             </div>
           );
