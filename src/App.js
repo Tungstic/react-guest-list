@@ -3,7 +3,7 @@ import './index.css';
 import { useEffect, useState } from 'react';
 
 export default function App() {
-  const baseUrl = 'http://localhost:4000';
+  const baseUrl = 'https://5df1f724-67c0-4a68-b515-7277cefd024f.id.repl.co';
 
   // declare state variable
   const [guests, setGuests] = useState([]);
