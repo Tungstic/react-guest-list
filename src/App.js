@@ -20,6 +20,7 @@ export default function App() {
       const data = await response.json();
       console.log('look here 1');
       console.log(data);
+      setGuests(data);
 
       setIsLoading(false); // Set isLoading to false after the response is received
     }
@@ -84,22 +85,6 @@ export default function App() {
         console.log(error);
       });
   }
-
-  // display all "guests" whenever this variable changes
-  useEffect(() => {
-    fetch(`${baseUrl}/guests`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('look here 3');
-        console.log(data);
-        console.log(guests);
-        // setGuests(data); DO NOT DO THAT
-      })
-      .catch((error) => {
-        console.log(error);
-        console.log('error 3');
-      });
-  }, [guests]);
 
   if (isLoading) {
     return (
