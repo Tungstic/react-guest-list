@@ -1,6 +1,6 @@
 import './App.css';
+import './index.css';
 import { useEffect, useState } from 'react';
-import styles from './index.css';
 
 export default function App() {
   const baseUrl = 'http://localhost:4000';
@@ -11,7 +11,6 @@ export default function App() {
   const [newGuest, setNewGuest] = useState({
     firstName: '',
     lastName: '',
-    // attending: attend,
   });
 
   // first rendering of the page
@@ -49,7 +48,7 @@ export default function App() {
         console.log('look here 2');
         console.log(data);
         setGuests([...guests, data]);
-        console.log('my guests' + JSON.stringify(guests)); // Here "guests" consists of empty array because setGuests is not synchronous??
+        console.log('my guests' + JSON.stringify(guests)); // Here "guests" consists of empty array because setGuests is not synchronous
       })
       .catch((error) => {
         console.log(error);
@@ -64,7 +63,6 @@ export default function App() {
     setNewGuest({
       firstName: '',
       lastName: '',
-      // attending: attend,
     });
   }
 
@@ -81,10 +79,14 @@ export default function App() {
       .then((data) => {
         console.log('look here 5');
         console.log(data);
-        const updatedGuestList = guests.filter((i) => {
-          return i.id !== data.id;
+        const updatedGuestList = guests.map((obj) => {
+          if (obj.id === data.id) {
+            return { ...obj, attending: boolean };
+          }
+          return obj;
         });
-        setGuests([...guests], updatedGuestList);
+        console.log(updatedGuestList);
+        setGuests(updatedGuestList);
       })
       .catch((error) => console.log(error));
   }

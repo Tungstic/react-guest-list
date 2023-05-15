@@ -1,34 +1,24 @@
-// 1. when we want to trigger an action on first render
-useEffect(() => {
-  async function firstRenderFetch() {
-    const response = await fetch('https://randomuser.me/api');
+// using useState to toggle checkbox
 
-    const data = await response.json();
+const [checkbox, setCheckbox] = useState(false);
 
-    setUsers([data.results[0]]);
-  }
-
-  firstRenderFetch().catch((error) => {
-    console.log(error);
-  });
-}, []); // triggers only on the first render
-
-// send a guest to API
-async function postGuest() {
-  const response = await fetch(`${baseUrl}/guests`, {
-    method: 'POST',
+function toggleCheckbox(id, boolean) {
+  fetch(`${baseUrl}/guests/${id}`, {
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      firstName: newGuest.firstName,
-      lastName: newGuest.lastName,
-    }),
-  });
-  const createdGuest = await response.json();
-  console.log(createdGuest);
-
-  postGuest().catch((error) => {
-    console.log(error);
-  });
+    body: JSON.stringify({ attending: boolean }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('look here 5');
+      console.log(data);
+      setCheckbox(data.attending);
+      const updatedGuestList = guests.filter((i) => {
+        return i.id !== data.id;
+      });
+      setGuests([...guests], updatedGuestList);
+    })
+    .catch((error) => console.log(error));
 }
