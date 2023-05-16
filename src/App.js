@@ -17,7 +17,6 @@ export default function App() {
     async function firstRenderFetch() {
       const response = await fetch(`${baseUrl}/guests`);
       const data = await response.json();
-      console.log('look here 1');
       console.log(data);
       setGuests(data);
 
@@ -26,7 +25,6 @@ export default function App() {
 
     firstRenderFetch().catch((error) => {
       console.log(error);
-      console.log('error 1');
     });
   }, []);
 
@@ -44,17 +42,14 @@ export default function App() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('look here 2');
         console.log(data);
         setGuests([...guests, data]);
-        console.log('my guests' + JSON.stringify(guests)); // Here "guests" consists of empty array because setGuests is not synchronous
       })
       .catch((error) => {
         console.log(error);
-        console.log('error 2');
       });
   }
-  // send newGuest to api and local list and afterwards clear inputs
+  // send newGuest to api and clear inputs by pressing Enter
   function handleSubmit(event) {
     event.preventDefault();
     setGuests([...guests, newGuest]);
@@ -65,7 +60,7 @@ export default function App() {
     });
   }
 
-  // switch attending status of existing guest
+  // toggle attending status of existing guest
   function toggleCheckbox(id, boolean) {
     fetch(`${baseUrl}/guests/${id}`, {
       method: 'PUT',
@@ -76,7 +71,6 @@ export default function App() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('look here 5');
         console.log(data);
         const updatedGuestList = guests.map((obj) => {
           if (obj.id === data.id) {
@@ -84,20 +78,18 @@ export default function App() {
           }
           return obj;
         });
-        console.log(updatedGuestList);
         setGuests(updatedGuestList);
       })
       .catch((error) => console.log(error));
   }
 
-  // delete guest from api list and local list by id
+  // delete guest from api list by id
   function deleteGuest(id) {
     fetch(`${baseUrl}/guests/${id}`, {
       method: 'DELETE',
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log('look here 4');
         console.log(data);
         const updatedList = guests.filter((guest) => {
           return guest['id'] !== data['id'];
