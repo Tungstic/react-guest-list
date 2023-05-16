@@ -1,5 +1,4 @@
 import './App.css';
-import './index.css';
 import { useEffect, useState } from 'react';
 
 export default function App() {
@@ -13,7 +12,7 @@ export default function App() {
     lastName: '',
   });
 
-  // first rendering of the page
+  // first rendering of the page and setting local list (guests) to api list
   useEffect(() => {
     async function firstRenderFetch() {
       const response = await fetch(`${baseUrl}/guests`);
