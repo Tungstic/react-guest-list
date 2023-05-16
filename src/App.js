@@ -148,10 +148,10 @@ export default function App() {
       </form>
 
       {guests.length > 0 && (
-        <div data-test-id="guest">
+        <div>
           {guests.map((guest) => {
             return (
-              <div key={`guest ${guest['id']}`}>
+              <div data-test-id="guest" key={`guest ${guest['id']}`}>
                 {guest['firstName'] + ' ' + guest['lastName']}
                 <input
                   type="checkbox"
