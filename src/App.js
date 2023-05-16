@@ -147,24 +147,26 @@ export default function App() {
         <button className="hideButton">Submit</button>
       </form>
 
-      <div data-test-id="guest">
-        {guests.map((guest) => {
-          return (
-            <div key={`guest ${guest['id']}`}>
-              {guest['firstName'] + ' ' + guest['lastName']}
-              <input
-                type="checkbox"
-                aria-label="attending status"
-                checked={guest.attending}
-                onChange={(event) =>
-                  toggleCheckbox(guest['id'], event.currentTarget.checked)
-                }
-              />
-              <button onClick={() => deleteGuest(guest['id'])}>Remove</button>
-            </div>
-          );
-        })}
-      </div>
+      {guests.length > 0 && (
+        <div data-test-id="guest">
+          {guests.map((guest) => {
+            return (
+              <div key={`guest ${guest['id']}`}>
+                {guest['firstName'] + ' ' + guest['lastName']}
+                <input
+                  type="checkbox"
+                  aria-label="attending status"
+                  checked={guest.attending}
+                  onChange={(event) =>
+                    toggleCheckbox(guest['id'], event.currentTarget.checked)
+                  }
+                />
+                <button onClick={() => deleteGuest(guest['id'])}>Remove</button>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </>
   );
 }
