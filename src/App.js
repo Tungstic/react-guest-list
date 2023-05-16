@@ -116,16 +116,7 @@ export default function App() {
           Last name
           <input disabled="true" />
         </label>
-
-        <div data-test-id="guest">
-          <div>Loading...</div>
-          <input
-            disabled="true"
-            type="checkbox"
-            aria-label="attending status"
-          />
-          <button disabled="true">Remove</button>
-        </div>
+        <div>Loading...</div>
       </>
     );
   }
